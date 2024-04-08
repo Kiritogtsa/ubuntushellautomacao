@@ -6,38 +6,6 @@ atualizar() {
 }
 
 sudo apt install ranger -y
-
-installzsh() {
-    sudo apt install curl -y
-    sudo apt install zsh -y
-
-    sudo chsh -s $(which zsh)
-
-    # pacotes necessarios
-    sudo apt install curl git -y
-
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-    bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-
-    echo "zinit light zdharma-continuum/fast-syntax-highlighting\n
-        zinit light zsh-users/zsh-autosuggestions\n
-        zinit light zsh-users/zsh-completions" >>$HOME/.zshrc
-
-    mkdir ~/.fonts
-
-    # baixando fonte
-    wget -P ~/.fonts 'https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/BitstreamVeraSansMono.zip'
-
-    unzip ~/.fonts/BitstreamVeraSansMono.zip -d ~/.fonts
-
-    sudo apt install fonts-firacode -y
-
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-
-}
-
 flatpak() {
     sudo apt install flatpak -y
     sudo add-apt-repository ppa:alexlarsson/flatpak
@@ -80,7 +48,7 @@ snapsinstallI() {
 main() {
     atualizar
     travas_apt
-    installzsh
+
     snapsinstallI
     instalardeb
     limpeza
