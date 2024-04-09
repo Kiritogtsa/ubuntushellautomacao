@@ -5,7 +5,25 @@ atualizar() {
     sudo apt upgrade -y
 }
 
-sudo apt install ranger -y
+zshinstall() {
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+    echo "zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions" >> /$HOME/.zshrc
+
+    mkdir ~/.fonts
+    wget -P ~/.fonts 'https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/BitstreamVeraSansMono.zip' 
+    unzip ~/.fonts/BitstreamVeraSansMono.zip -d ~/.fonts
+
+    if [ -e /$HOME/powerlevel10k ];then
+        cp /$HOME/powerlevel10k $HOME/.oh-my-zsh/themes/powerlevel10k
+    fi
+    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+
+    sed -i 's/ZSH_THEME=".*"/ZSH_THEME="powerlevel10k\/powerlevel10k"/g' ~/.zshrc
+}
+
 flatpak() {
     sudo apt install flatpak -y
     sudo add-apt-repository ppa:alexlarsson/flatpak
@@ -39,16 +57,24 @@ instalardeb() {
     done
     sudo dpkg -i ./*.deb
 }
-
+aptinstall(){
+    apks=("fonts-firacode" "curl" "git" "zsh")
+    for apk in $"{apks[@]}";do
+        sudo apt install apk -y
+    done
+}
 snapsinstallI() {
-    sudo snap install code -y
-    sudo snap install intellij-idea-community --classic -y
+    snaps=("ranger" "code --classic" "intellij-idea-community --classic" "tilix")
+    for s in $"{snaps[@]}";do
+        sudo snap install s -y
+    done
 }
 
 main() {
     atualizar
     travas_apt
-
+    aptinstall
+    zshinstall
     snapsinstallI
     instalardeb
     limpeza
