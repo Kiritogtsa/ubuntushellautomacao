@@ -15,7 +15,7 @@ zinit light zsh-users/zsh-completions" >> /$HOME/.zshrc
     mkdir ~/.fonts
     wget -P ~/.fonts 'https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/BitstreamVeraSansMono.zip' 
     unzip ~/.fonts/BitstreamVeraSansMono.zip -d ~/.fonts
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+
     if [ -e /$HOME/powerlevel10k ];then
         cp /$HOME/powerlevel10k $HOME/.oh-my-zsh/themes/powerlevel10k
     fi
@@ -57,16 +57,16 @@ instalardeb() {
     done
     sudo dpkg -i ./*.deb
 }
-aptinstall(){
+aptinstall() {
     apks=("fonts-firacode" "curl" "git" "zsh")
-    for apk in $"{apks[@]}";do
-        sudo apt install apk -y
+    for apk in "${apks[@]}";do
+        sudo apt install "$apk" -y;
     done
 }
 snapsinstallI() {
     snaps=("ranger" "code --classic" "intellij-idea-community --classic" "tilix")
-    for s in $"{snaps[@]}";do
-        sudo snap install s -y
+    for s in "${snaps[@]}";do
+        sudo snap install "$s"
     done
 }
 
@@ -75,7 +75,9 @@ main() {
     travas_apt
     aptinstall
     zshinstall
-    snapsinstallI
     instalardeb
+    flatpak
+    snapsinstallI
     limpeza
 }
+main
