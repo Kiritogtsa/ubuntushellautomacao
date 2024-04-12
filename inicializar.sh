@@ -71,7 +71,7 @@ instalardeb() {
     
 }
 aptinstall() {
-    apks=("fonts-firacode" "curl" "git" "zsh")
+    apks=("fonts-firacode" "curl" "git" "zsh" "tilix")
     for apk in "${apks[@]}";do
         sudo apt install "$apk" -y;
     done
