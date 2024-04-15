@@ -11,8 +11,6 @@ retornapaths() {
     echo "${caminhos[@]}"
 }
 
-# faço uma main com menu?
-
 # verificar() {
 #     if [ ! -d $patha ];then
 #         mkdir $patha
@@ -41,6 +39,8 @@ retornapaths() {
 # echo $(ls $patha)
 # copyordelete "rm" "${path[@]}"
 # echo $(cat $patha)
+
+# verica quando e tempo de remover um arquivo backup 
 vericaremover() {
     for linha in $1; do
         dataarquivo=$(echo "$linha" | cut -d'-' -f2)
@@ -50,18 +50,26 @@ vericaremover() {
         fi
     done
 }
+
+# inicia o backup dos caminhos que tao no arquivo 
 fazerbackup() {
+    # esta variavel recebe um resulta de um funcao que retorna um array em strings de nome caminhos 
     paths=($(retornapaths "$arquivopath"))
     tar -zcvf "backup_$data.tar.gz" "${paths[@]}"
+    # scp copia o arquivo gerado pelo tar para o servidor
     scp "/home/$user/backup_$data.tar.gz" $1:/home/$2/backup
+    # remove o arquivo criado localmente depois de enviar o arquivo para o servidor
     rm "/home/$user/backup_$data.tar.gz"
 }
+# verica se o servidor tem este caminho, se nao tem ele cria uma pasta
 verificarsshbackup() {
     pasta= $(ssh $1 "cat bakup")
     if [ "$pasta" != "cat: backup: É um diretório" ]; then
         ssh $1 "mkdir bakup"
     fi
 }
+
+# verifica se o servidor ta ativo retornado um booleano apropriado
 vericarconexao() {
         if ping -c 1 $1 >/dev/null 2>&1; then
             return 0
@@ -69,6 +77,8 @@ vericarconexao() {
             return 1
         fi
 }
+
+
 verificarstring() {
     arquivo
     while IFS= read -r line;do
