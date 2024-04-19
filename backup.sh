@@ -11,36 +11,6 @@ retornapaths() {
     echo "${caminhos[@]}"
 }
 
-# verificar() {
-#     if [ ! -d $patha ];then
-#         mkdir $patha
-#     fi
-# }
-
-# copyordelete() {
-#     verificar
-#     local comando="$1"
-#     local caminhos=("${@:2}")
-#     for pasta in "${caminhos[@]}"; do
-#         echo "Caminho: $pasta"  # Adiciona instrução de depuração
-#         if [ -e "$pasta" ] && [ "$1" == "cp" ]; then
-#             cp -r "$pasta" "$patha"
-#         elif [ "$1" == "rm" ] ;then
-#             rm -r "$patha"
-#         else
-#             echo "O diretório ou arquivo '$pasta' não existe."
-#         fi
-#     done
-# }
-
-# path=($(retornapaths "$arquivopath"))
-
-# copyordelete "cp" "${path[@]}"
-# echo $(ls $patha)
-# copyordelete "rm" "${path[@]}"
-# echo $(cat $patha)
-
-# verica quando e tempo de remover um arquivo backup 
 vericaremover() {
     for linha in $1; do
         dataarquivo=$(echo "$linha" | cut -d'-' -f2)
@@ -51,9 +21,9 @@ vericaremover() {
     done
 }
 
-# inicia o backup dos caminhos que tao no arquivo 
+# inicia o backup dos caminhos que tao no arquivo
 fazerbackup() {
-    # esta variavel recebe um resulta de um funcao que retorna um array em strings de nome caminhos 
+    # esta variavel recebe um resulta de um funcao que retorna um array em strings de nome caminhos
     paths=($(retornapaths "$arquivopath"))
     tar -zcvf "backup_$data.tar.gz" "${paths[@]}"
     # scp copia o arquivo gerado pelo tar para o servidor
@@ -80,115 +50,36 @@ vericarconexao() {
 
 
 verificarstring() {
-    arquivo
-    while IFS= read -r line;do
-        if [ $line == $1 ];then
-            return 0
-        fi
-    done <$arquivopath;
-    return 1
-}
-
-
-# adicionar() {
-#     echo $(ls)
-#     read -p " 1=entra na pasta, 2=adiciona a pasta atual, 3=escolha um arquivo" input
-#     pasta=$arquivopath
-#     if [ $input -eq 1 ];then
-#         echo $(ls) 
-#         read -p " qual pasta: " pasta
-#         cd $pasta 
-#         if $?;then
-#             adicionar
-#         else 
-#          echo " digite certo "
-#          adicionar
-#         fi
-#     elif [ $input -eq 2 ];then
-#         caminho=$(pwd)
-#         echo $caminho >> $pasta
-#     elif [ $input -eq 3 ];then
-#         read -ṕ "nome do arquivo: " file
-#         caminho=$(pwd)/$file
-#         if [ -e $caminho ];then
-#             echo $caminho >> $pasta
-#         fi
-#     fi
-# }
-# remover() {
-#     pasta=(${retornapaths $arquivopath})
-#     count=1
-#     for path in $pasta;do    
-#       echo "$path + $count"
-#       count+=1
-#     done
-#     read -p " escolha um caminho para remover: numero" numer
-#     sed """$numer""d" "$arquivopath"
-    
-# }
-# menu() {
-#     case $i in 
-#         0) adicionar
-#             main;;
-#         1) 
-#             remover
-#             main;;
-#         *) echo "invalida";;
-#     esac
-
-# }
-#  local arquivo="/home/$user/shhconf.txt"
-#     if [ -e $arquivo ]; then
-#         user_ip=$(cat "$arquivo")
-#         userssh=$(echo "$user_ip" | cut -d ' ' -f1)
-#         ipserv=$(echo "$user_ip" | cut -d ' ' -f2)
-#         if vericarconexao $user_ip;then
-#             sshconf=$userssh"@"$ipserv
-#             verificarsshbackup "$user_ip"
-#             if [ ${#array[@]} -gt 0 ]; then
-#                 readarray -t array <<<"files"
-#                 vericaremover "${array[@]}" $sshconf $userssh
-#             fi
-#             fazerbackup $sshconf $userssh
-#         else
-#             echo "nao ta ativo"
-#             echo $user"@"$ipserv
-#         fi
-#     fi
-main() {
-    local arquivo="/home/$user/shhconf.txt"
-    if [ -e $arquivo ]; then
-        user_ip=$(cat "$arquivo")
-        userssh=$(echo "$user_ip" | cut -d ' ' -f1)
-        ipserv=$(echo "$user_ip" | cut -d ' ' -f2)
-        if vericarconexao $ipserv;then
-            sshconf=$userssh"@"$ipserv
-            verificarsshbackup "$user_ip"
-            if [ ${#array[@]} -gt 0 ]; then
-                readarray -t array <<<"files"
-                vericaremover "${array[@]}" $sshconf $userssh
+        arquivo
+        while IFS= read -r line;do
+            if [ $line == $1 ];then
+                return 0
             fi
-            fazerbackup $sshconf $userssh
-        else
-            echo "nao ta ativo"
-        fi
-    fi
+        done <$arquivopath;
+        return 1
+    }
+
+ main() {
+     local arquivo="/home/$user/shhconf.txt"
+     if [ -e $arquivo ]; then
+         user_ip=$(cat "$arquivo")
+         userssh=$(echo "$user_ip" | cut -d ' ' -f1)
+         ipserv=$(echo "$user_ip" | cut -d ' ' -f2)
+         if vericarconexao $ipserv;then
+             sshconf=$userssh"@"$ipserv
+             verificarsshbackup "$user_ip"
+             if [ ${#array[@]} -gt 0 ]; then
+                 readarray -t array <<<"files"
+                 vericaremover "${array[@]}" $sshconf $userssh
+             fi
+             fazerbackup $sshconf $userssh
+         else
+             echo "nao ta ativo"
+         fi
+     fi
+ }
+teste() {
+  echo "teste"
 }
-# main() {
-#     local arquivo="/home/$user/shhconf.txt"
-#     if [ -e $arquivo ]; then
-#          user_ip=$(cat "$arquivo")
-#         userssh=$(echo "$user_ip" | cut -d ' ' -f1)
-#         ipserv=$(echo "$user_ip" | cut -d ' ' -f2)
-#         if vericarconexao $user_ip;then
-#             choice=$(--title "Main Menu" \
-#                   --menu "Choose an action:" 10 60 3 \
-#                   --item "adicionar pasta/arquivo" 0 \
-#                   --item "iniciar o backup" 1 \
-#                   --item "sair" 2 3)
-#             menu $choice
-            
-#         fi
-#     fi
-# }
+
 main
