@@ -15,6 +15,7 @@ configkitty(){
 zshinstall() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+    chsh -s "$(which zsh)" 
     echo "zinit light zdharma-continuum/fast-syntax-highlighting
     zinit light zsh-users/zsh-autosuggestions
     zinit light zsh-users/zsh-completions" >> "$HOME"/.zshrc
