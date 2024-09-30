@@ -4,7 +4,7 @@
 
 / install basic aplication
 
-sudo chmod +x ./shells/automatizationofsystem/ubuntu.sh && ./shells/automatizationofsystem/ubuntu.sh
+sudo chmod +x ./shells/automatizationofsystem/ubuntu.sh && ./shells/automatizationofsystem/ubuntu.sh ""
 
 / config zsh
 

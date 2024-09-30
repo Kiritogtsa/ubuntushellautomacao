@@ -7,7 +7,7 @@ atualizar() {
 
 configkitty(){
     wget -O "$HOME"/kitty-master.zip https://github.com/dracula/kitty/archive/master.zip
-    # git clone https://github.com/Kiritogtsa/ubuntushellautomacao.git
+    git clone https://github.com/Kiritogtsa/ubuntushellautomacao.git
     mkdir -p "$HOME"/.config/kitty
     cp ubuntushellautomacao/config/kitty.config "$HOME"/.config/kitty/kitty.conf
 }
