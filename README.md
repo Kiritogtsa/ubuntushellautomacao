@@ -1,1 +1,12 @@
 # ubuntushellautomacao
+
+// use
+
+/ install basic aplications
+chmod +x ./shells/automatizationofsystem/ubuntu.sh
+./shells/automatizationofsystem/ubuntu.sh
+
+/ config zsh
+
+sudo apt install zsh
+./shells/automatizationofsystem/ubuntu.sh zsh zsh_confi
