@@ -63,7 +63,7 @@ instalardeb() {
 }
 
 aptinstall() {
-    apks=("fonts-firacode" "curl" "git" "zsh" "kitty" "tmux")
+    apks=("fonts-firacode" "curl" "git" "kitty" "tmux")
     for apk in "${apks[@]}"; do
         sudo apt install "$apk" -y
     done
@@ -77,15 +77,26 @@ snapsinstall() {
 }
 
 main() {
-    atualizar
-    travas_apt
-    aptinstall
-    zshinstall
-    instalardeb
-    flatpak
-    snapsinstall
-    configkitty
-    limpeza
+    if [ "$1" == "" ]; then
+        atualizar
+        travas_apt
+        aptinstall
+        instalardeb
+        flatpak
+        snapsinstall
+        configkitty
+        limpeza   
+    elif [ "$1" ==  "zsh_confi" ];then
+        atualizar
+        zshinstall
+        limpeza   
+    fi 
+    
 }
 
-main
+
+if [ "$1" == "" ];then
+    main ""
+else
+    main "zsh_confi"
+fi
