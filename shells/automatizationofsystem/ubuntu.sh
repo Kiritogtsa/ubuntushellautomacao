@@ -86,6 +86,7 @@ main() {
         snapsinstall
         configkitty
         limpeza   
+       
     elif [ "$1" ==  "zsh_confi" ];then
         atualizar
         zshinstall

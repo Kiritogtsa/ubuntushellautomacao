@@ -4,10 +4,14 @@
 
 / install basic aplication
 
-sudo chmod +x ./shells/automatizationofsystem/ubuntu.sh && ./shells/automatizationofsystem/ubuntu.sh ""
+sudo chmod +x ./ubuntu.sh
+
+./ubuntu ""
 
 / config zsh
 
 sudo apt install zsh
 
-./shells/automatizationofsystem/ubuntu.sh zsh zsh_confi
+sudo chmod +x .ubuntushellautomacao/shells/automatizationofsystem/ubuntu.sh
+
+./ubuntushellautomacao/shells/automatizationofsystem/ubuntu.sh zsh_confi
