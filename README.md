@@ -9,4 +9,5 @@ sudo chmod +x ./shells/automatizationofsystem/ubuntu.sh && ./shells/automatizati
 / config zsh
 
 sudo apt install zsh
+
 ./shells/automatizationofsystem/ubuntu.sh zsh zsh_confi
