@@ -5,6 +5,7 @@
 / install basic aplication
 
 chmod +x ./shells/automatizationofsystem/ubuntu.sh
+
 ./shells/automatizationofsystem/ubuntu.sh
 
 / config zsh
