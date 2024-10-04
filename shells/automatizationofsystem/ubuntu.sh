@@ -24,14 +24,17 @@ zshinstall() {
     wget -P ~/.fonts 'https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/BitstreamVeraSansMono.zip' 
     unzip ~/.fonts/BitstreamVeraSansMono.zip -d ~/.fonts
     fc-cache -fv
-    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> "$HOME"/.zshrc
+    # echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> "$HOME"/.zshrc
     sed -i 's/ZSH_THEME=".*"/ZSH_THEME="powerlevel10k\/powerlevel10k"/g' "$HOME"/.zshrc
 }
 
 flatpak() {
-    sudo apt install flatpak -y
-    sudo add-apt-repository ppa:alexlarsson/flatpak -y
+    sudo add-apt-repository ppa:flatpak/stable
     sudo apt update
+    sudo apt install flatpak -y
+    sudo apt install gnome-software --install-suggests -y
+    sudo apt install gnome-software-plugin-flatpak
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     sudo apt install --install-recommends flatpak -y
 }
 
@@ -59,7 +62,7 @@ instalardeb() {
         wget "$url"
     done
     sudo dpkg -i ./*.deb
-    sudo apt install -f -y  # Corrigir dependências
+    sudo apt install -f -y  # Corrige as dependecias que talveis estejam quebradas
 }
 
 aptinstall() {
@@ -77,7 +80,7 @@ snapsinstall() {
 }
 
 main() {
-    if [ "$1" == "" ]; then
+    if [ "$1" = "" ]; then
         atualizar
         travas_apt
         aptinstall
@@ -91,6 +94,8 @@ main() {
         atualizar
         zshinstall
         limpeza   
+    else 
+        echo "nada " 
     fi 
     
 }
